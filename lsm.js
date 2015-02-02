@@ -5,10 +5,11 @@ var cli = require('commander'),
         fs = require('fs'),
         ejs = require('ejs'),
         config = require('./config.json'),
-        exec = require('child_process').exec
+        exec = require('child_process').exec,
+        package = require('./package.json')
 
 
-cli.version('0.0.4')
+cli.version(package.version)
         .option('--root-directory <dir>', 'Path to directory to work in', config.rootDir)
         .option('--hosts-file <hosts-file>', 'Path to /etc/hosts file', config.hostsFile)
         .option('--apache-dir <directory>', 'apache config directory', config.apacheDir)
