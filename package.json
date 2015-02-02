@@ -19,7 +19,8 @@
   },
   "dependencies" : {
     "commander" : "~2.6.0",
-    "chalk" : "~0.5"
+    "chalk" : "~0.5",
+    "ejs": "~1.0"
   },
   "license" : {
     "type" : "gplv3"
