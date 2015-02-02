@@ -17,6 +17,15 @@ var cli = require('commander'),
             }
             var buf = crypto.randomBytes(length);
             return buf.toString('hex');
+        },
+        addEntryToHostsFile = function(name){
+            name += '.local';
+            console.log(chalk.green('Add entry to hosts file: ') + cli.hostsFile);
+            err = fs.appendFileSync(cli.hostsFile, '127.0.0.1\t' + name + '\n');
+            if (err) {
+                console.log(chalk.red('Failed: ') + err.code + ' ' + err.path);
+                process.exit(err.errno);
+            }
         };
 
 cli.version(package.version)
@@ -62,12 +71,7 @@ cli.command('add <name> [directory]')
             }
             exec('chown ' + cli.user + ':' + cli.group + ' ' + directory);
             /* Add entry to hosts file */
-            console.log(chalk.green('Add entry to hosts file: ') + cli.hostsFile);
-            err = fs.appendFileSync(cli.hostsFile, '127.0.0.1\t' + name + '\n');
-            if (err) {
-                console.log(chalk.red('Failed: ') + err.code + ' ' + err.path);
-                process.exit(err.errno);
-            }
+            addEntryToHostsFile(originalName);
             /* Create VirtualHost file */
             var siteEnabled = cli.apacheDir + '/sites-available/' + name + '.conf';
             console.log(chalk.green('Create vhosts file: ') + siteEnabled);
@@ -102,13 +106,5 @@ cli.command('add <name> [directory]')
         });
 cli.command('domain2local <name>')
         .description('route domain name to 127.0.0.1')
-        .action(function (name) {
-            name += '.local';
-            console.log(chalk.green('Add entry to hosts file: ') + cli.hostsFile);
-            err = fs.appendFileSync(cli.hostsFile, '127.0.0.1\t' + name + '\n');
-            if (err) {
-                console.log(chalk.red('Failed: ') + err.code + ' ' + err.path);
-                process.exit(err.errno);
-            }
-        });
+        .action(addEntryToHostsFile);
 cli.parse(process.argv);
