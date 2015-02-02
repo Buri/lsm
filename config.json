@@ -2,5 +2,7 @@
     "rootDir": "/home/burianekj/Dokumenty/Web",
     "hostsFile": "/etc/hosts",
     "sysBin": "/usr/local/bin/lsm",
-    "apacheDir": "/etc/apache2"
+    "apacheDir": "/etc/apache2",
+    "user": "burianekj",
+    "group": "burianekj"
 }

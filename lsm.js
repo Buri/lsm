@@ -8,7 +8,7 @@ var cli = require('commander'),
         config = require('./config.json'),
         exec = require('child_process').exec,
         package = require('./package.json'),
-        crypto = require('crypto')
+        crypto = require('crypto'),
 
         /* Function definition block */
         randomString = function (length) {
@@ -52,11 +52,12 @@ cli.command('add <name> [directory]')
             }
             /* Create document root for site */
             console.log(chalk.green('Create directory: ') + directory);
-            var err = fs.mkdirSync(mkdir);
+            var err = fs.mkdirSync(directory);
             if (err) {
                 console.log(chalk.red('Failed: ') + err.code + ' ' + err.path);
                 process.exit(err.errno);
             }
+            exec('chown ' + config.user + ':' + config.group + ' ' + directory);
             /* Add entry to hosts file */
             console.log(chalk.green('Add entry to hosts file: ') + cli.hostsFile);
             err = fs.appendFileSync(cli.hostsFile, '127.0.0.1\t' + name + '\n');
@@ -67,7 +68,7 @@ cli.command('add <name> [directory]')
             /* Create VirtualHost file */
             var siteEnabled = cli.apacheDir + '/sites-available/' + name + '.conf';
             console.log(chalk.green('Create vhosts file: ') + siteEnabled);
-            var template = fs.readFileSync('virtualhost.conf', {encoding:'UTF8'});
+            var template = fs.readFileSync(__dirname + '/templates/virtualhost.conf', {encoding:'UTF8'});
             var vhost = ejs.render(template, {
                 sitepath: directory,
                 sitename: name
