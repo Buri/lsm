@@ -23,12 +23,15 @@ cli.version(package.version)
         .option('--root-directory <dir>', 'Path to directory to work in', config.rootDir)
         .option('--hosts-file <hosts-file>', 'Path to /etc/hosts file', config.hostsFile)
         .option('--apache-dir <directory>', 'apache config directory', config.apacheDir)
-        .option('-n', '--nette', 'Use /www subdirectory on hosts file');
+        .option('--nette', 'Use /www subdirectory on hosts file')
+        .option('--user <user>', 'User to change ownership to', config.user)
+        .option('--group <group>', 'Group to change ownership to', config.group)
 cli.command('link-binary [path]')
         .description('Use LSM as system binary (/usr/local/bin/lsm)')
+        .option('--path <target>', 'Location to link binary to', config.sysBin)
         .action(function (path) {
             if (!path) {
-                path = config.sysBin;
+                path = cli.path;
             }
             console.log(chalk.green('Current binary: ') + __filename);
             console.log(chalk.green('Targtet link: ') + path);
@@ -57,7 +60,7 @@ cli.command('add <name> [directory]')
                 console.log(chalk.red('Failed: ') + err.code + ' ' + err.path);
                 process.exit(err.errno);
             }
-            exec('chown ' + config.user + ':' + config.group + ' ' + directory);
+            exec('chown ' + cli.user + ':' + cli.group + ' ' + directory);
             /* Add entry to hosts file */
             console.log(chalk.green('Add entry to hosts file: ') + cli.hostsFile);
             err = fs.appendFileSync(cli.hostsFile, '127.0.0.1\t' + name + '\n');
