@@ -28,4 +28,8 @@ build/Release
 node_modules
 
 # Users Environment Variables
+<<<<<<< HEAD
 .lock-wscript
+=======
+.lock-wscript
+>>>>>>> origin/master
