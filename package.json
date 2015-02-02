@@ -1,0 +1,30 @@
+{
+  "name" : "lsm",
+  "version" : "0.0.3",
+  "main" : "./lsm.js",
+  "author" : {
+    "name" : "Jakub Buriánek",
+    "email" : "buri.buster@gmail.com"
+  },
+  "keywords" : [ ],
+  "licenses" : {
+    "type" : "gpl30"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "git://github.com/Buri/VMM.git"
+  },
+  "bugs" : {
+    "url" : "http://github.com/Buri/lsm/issues"
+  },
+  "dependencies" : {
+    "commander" : "~2.6.0",
+    "chalk" : "~0.5"
+  },
+  "license" : {
+    "type" : "gplv3"
+  },
+  "scripts": {
+      "install": "node lsm.js link-binary"
+  }
+}
